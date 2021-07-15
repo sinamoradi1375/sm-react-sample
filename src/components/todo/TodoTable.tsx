@@ -1,11 +1,13 @@
 import { Table } from "react-bootstrap";
 import { ITodo } from "../../models";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
-  data: ITodo[];
+  todoArr: ITodo[];
 }
 
-const TodoTable: React.FC<IProps> = () => {
+const TodoTable: React.FC<IProps> = ({ todoArr }) => {
   return (
     <Table striped bordered responsive hover variant="dark">
       <thead>
@@ -16,11 +18,20 @@ const TodoTable: React.FC<IProps> = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
+        {todoArr.length > 0 &&
+          todoArr.map((item, index) => (
+            <tr key={index}>
+              <td>{item.id}</td>
+              <td>{item.title}</td>
+              <td>
+                {item.completed ? (
+                  <FontAwesomeIcon icon={faCheck} />
+                ) : (
+                  <FontAwesomeIcon icon={faTimes} />
+                )}
+              </td>
+            </tr>
+          ))}
       </tbody>
     </Table>
   );

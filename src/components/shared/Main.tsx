@@ -5,14 +5,14 @@ import TodoForm from "../todo/TodoForm";
 import TodoTable from "../todo/TodoTable";
 
 const Main = () => {
-  const [todoList, setTodoList] = useState<ITodo[]>([]);
+  const [todoArr, setTodoArr] = useState<ITodo[]>([]);
   return (
     <main>
       <Container className="pt-5">
         <Row>
           <Col>
-            <TodoForm />
-            <TodoTable data={todoList} />
+            <TodoForm setTodoArr={setTodoArr} todoArr={todoArr} />
+            <TodoTable todoArr={todoArr} />
           </Col>
         </Row>
       </Container>
