@@ -1,0 +1,14 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./base.scss";
+
+body {
+  background-color: $body-bg-color;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+
+  header {
+    background-color: $header-bg-color;
+    color: #fff;
+  }
+}
