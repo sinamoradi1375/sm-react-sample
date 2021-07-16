@@ -11,4 +11,17 @@ body {
     background-color: $header-bg-color;
     color: #fff;
   }
+
+  main {
+    .todo-table {
+      .delete-icon {
+        color: #dc3545;
+        cursor: pointer;
+        &:hover {
+          animation: wiggleAnimation 0.3s cubic-bezier(0.37, 0.55, 0.59, 0.49)
+            forwards;
+        }
+      }
+    }
+  }
 }

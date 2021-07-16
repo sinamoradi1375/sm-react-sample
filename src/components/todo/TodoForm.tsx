@@ -1,18 +1,32 @@
 import { ITodo } from "../../models";
 import { Formik } from "formik";
-import { Col, Form as BootstrapForm, InputGroup, Row } from "react-bootstrap";
+import {
+  Col,
+  Form as BootstrapForm,
+  InputGroup,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import * as Yup from "yup";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
+import { addTodo, getTodosAsync } from "../../store/slices/todoSlice";
+import { useDispatch } from "react-redux";
+import { RootState } from "../../store";
 
-interface IProps {
-  setTodoArr: (todoArr: ITodo[]) => void;
-  todoArr: ITodo[];
-}
+interface IProps {}
 
-const TodoForm: React.FC<IProps> = ({ setTodoArr, todoArr }) => {
-  // const [id, setId] = useState<number>(0);
+const TodoForm: React.FC<IProps> = () => {
+  const [id, setId] = useState<number>(1);
   const formInitialValues: ITodo = { id, title: "", completed: false };
+  const dispatch = useDispatch();
+  const fetchTodos = async () => {
+    try {
+      dispatch(getTodosAsync());
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Formik
@@ -23,13 +37,12 @@ const TodoForm: React.FC<IProps> = ({ setTodoArr, todoArr }) => {
           .required("Please enter the title!"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        // values = { ...values, id: id + 1 };
-        setTimeout(() => {
-          // alert(JSON.stringify(values, null, 2));
-          setTodoArr([...todoArr, values]);
-          resetForm();
-          setSubmitting(false);
-        }, 800);
+        const newId = id + 1;
+        setId(newId);
+        values = { ...values, id };
+        dispatch(addTodo(values));
+        resetForm();
+        setSubmitting(false);
       }}
     >
       {({
@@ -43,7 +56,7 @@ const TodoForm: React.FC<IProps> = ({ setTodoArr, todoArr }) => {
         <BootstrapForm className="mb-3" onSubmit={handleSubmit}>
           <Row>
             <Col xs={12} md={4}>
-              <InputGroup hasValidation>
+              <InputGroup hasValidation className="mb-3 mb-md-0">
                 <InputGroup.Text>Title</InputGroup.Text>
                 <BootstrapForm.Control
                   type="text"
@@ -59,7 +72,7 @@ const TodoForm: React.FC<IProps> = ({ setTodoArr, todoArr }) => {
             </Col>
             <Col xs={12} md={2} className="d-flex">
               <BootstrapForm.Group
-                className="my-auto"
+                className="my-auto mb-3 mb-md-0"
                 controlId="formIsCompleted"
               >
                 <BootstrapForm.Check
@@ -72,9 +85,19 @@ const TodoForm: React.FC<IProps> = ({ setTodoArr, todoArr }) => {
                 />
               </BootstrapForm.Group>
             </Col>
-            <Col xs={12} md={2}>
-              <Button variant="primary" type="submit" disabled={isSubmitting}>
+            <Col xs={12} md={1}>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={isSubmitting}
+                className=" mb-3 mb-md-0"
+              >
                 Add
+              </Button>
+            </Col>
+            <Col>
+              <Button variant="secondary" type="button" onClick={fetchTodos}>
+                Fetch Some Todos From API
               </Button>
             </Col>
           </Row>
