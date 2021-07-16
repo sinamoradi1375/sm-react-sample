@@ -6,11 +6,10 @@ export const Header = () => {
       <Container className="py-3">
         <Row>
           <Col>
-            {/* <div className="text-center">
+            <div className="text-center">
               Welcome to my Todo App Implemented with React, Redux-toolkit,
               Typescript, Scss and Bootstrap 5
-            </div> */}
-            <div className="text-center">Hey whats up</div>
+            </div>
           </Col>
         </Row>
       </Container>
