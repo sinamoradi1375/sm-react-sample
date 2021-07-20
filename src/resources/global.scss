@@ -13,9 +13,10 @@ body {
   }
 
   main {
-    .todo-table {
-      .delete-icon {
-        color: #dc3545;
+    .users-table {
+      .delete-icon,
+      .edit-icon {
+        // color: #dc3545;
         cursor: pointer;
         &:hover {
           animation: wiggleAnimation 0.3s cubic-bezier(0.37, 0.55, 0.59, 0.49)

@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const baseUrl = "https://jsonplaceholder.typicode.com";
+const baseUrl = "https://60f3032c6d44f30017788866.mockapi.io/api";
 
 //functions to make api calls
 const agent = {
   todo: {
-    getTodos: () => {
-      return axios.get(`${baseUrl}/todos`);
+    getUsers: () => {
+      return axios.get(`${baseUrl}/users`);
     },
   },
 };

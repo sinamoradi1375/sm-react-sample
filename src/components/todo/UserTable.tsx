@@ -1,18 +1,22 @@
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { deleteTodo } from "../../store/slices/todoSlice";
+import { deleteUser } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import { IUser } from "../../models";
 
-interface IProps {}
+interface IProps {
+  setUserToEdit: (user: IUser) => void;
+}
 
-const TodoTable: React.FC<IProps> = () => {
+const UserTable: React.FC<IProps> = ({ setUserToEdit }) => {
   const dispatch = useDispatch();
-  const todoArr = useSelector((state: RootState) => state.todoSlice.todos);
-  const handleDeleteTodo = (todoId: number) => {
+  const todoArr = useSelector((state: RootState) => state.userSlice.users);
+
+  const handleDeleteUser = (todoId: number) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -26,7 +30,7 @@ const TodoTable: React.FC<IProps> = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteTodo(todoId));
+        dispatch(deleteUser(todoId));
         Swal.fire({
           title: "Successfully Deleted",
           icon: "success",
@@ -48,13 +52,14 @@ const TodoTable: React.FC<IProps> = () => {
         responsive
         hover
         variant="dark"
-        className="todo-table"
+        className="users-table"
       >
         <thead>
           <tr>
             <th className="text-center">ID</th>
-            <th className="text-center">Title</th>
-            <th className="text-center">IsCompleted</th>
+            <th className="text-center">First Name</th>
+            <th className="text-center">Last Name</th>
+            <th className="text-center">Age</th>
             <th className="text-center">Actions</th>
           </tr>
         </thead>
@@ -63,21 +68,24 @@ const TodoTable: React.FC<IProps> = () => {
             todoArr.map((item, index) => (
               <tr key={index}>
                 <td className="text-center">{item.id}</td>
-                <td className="text-center">{item.title}</td>
-                <td className="text-center">
-                  {item.completed ? (
-                    <FontAwesomeIcon icon={faCheck} />
-                  ) : (
-                    <FontAwesomeIcon icon={faTimes} />
-                  )}
-                </td>
+                <td className="text-center">{item.firstName}</td>
+                <td className="text-center">{item.lastName}</td>
+                <td className="text-center">{item.age}</td>
                 <td className="text-center">
                   <FontAwesomeIcon
                     className="delete-icon"
                     icon={faTrash}
                     title="Delete"
                     onClick={() => {
-                      handleDeleteTodo(item.id);
+                      handleDeleteUser(item.id);
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    className="edit-icon ms-4"
+                    icon={faPencilAlt}
+                    title="Edit"
+                    onClick={() => {
+                      setUserToEdit(item);
                     }}
                   />
                 </td>
@@ -89,4 +97,4 @@ const TodoTable: React.FC<IProps> = () => {
   );
 };
 
-export default TodoTable;
+export default UserTable;
