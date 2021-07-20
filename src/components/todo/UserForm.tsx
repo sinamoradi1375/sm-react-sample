@@ -74,54 +74,55 @@ const UserForm: React.FC<IProps> = ({ userToEdit, setUserToEdit }) => {
         <Form className="mb-3">
           {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
           <Row>
-            <Col xs={12} md={3}>
+            <Col xs={12} md={4}>
               <SmInputGroup name="firstName" label="First Name" type="text" />
             </Col>
-            <Col xs={12} md={3}>
+            <Col xs={12} md={4}>
               <SmInputGroup name="lastName" label="Last Name" type="text" />
             </Col>
-            <Col xs={12} md={3}>
+            <Col xs={12} md={4}>
               <SmInputGroup name="age" label="Age" type="text" />
             </Col>
-            <Col xs={12} md={3}>
-              {!isEditMode ? (
-                <Button
-                  variant="primary"
-                  type="submit"
-                  disabled={isSubmitting}
-                  className=" mb-3 mb-md-0 me-md-5"
-                >
-                  Add
-                </Button>
-              ) : (
-                <>
+          </Row>
+          <Row className="mt-3">
+            <Col>
+              <div className="d-flex flex-column flex-md-row justify-content-between">
+                {!isEditMode ? (
                   <Button
                     variant="primary"
                     type="submit"
                     disabled={isSubmitting}
-                    className=" mb-3 mb-md-0 me-md-1"
+                    className=" mb-3 mb-md-0 me-md-2"
                   >
-                    Save
+                    Add
                   </Button>
+                ) : (
+                  <div className="d-flex justify-content-space-around">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                      className=" mb-3 mb-md-0 me-2 w-100"
+                    >
+                      Save
+                    </Button>
 
-                  <Button
-                    variant="danger"
-                    title="Cancel"
-                    className=" mb-3 mb-md-0 me-md-1"
-                  >
-                    <FontAwesomeIcon
-                      icon={faWindowClose}
+                    <Button
+                      variant="danger"
+                      title="Cancel"
+                      className=" mb-3 mb-md-0 me-md-2 w-100"
                       onClick={() => {
                         setUserToEdit(null);
                       }}
-                    />
-                  </Button>
-                </>
-              )}
-
-              <Button variant="secondary" type="button" onClick={fetchTodos}>
-                Fetch Some Users
-              </Button>
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+                <Button variant="secondary" type="button" onClick={fetchTodos}>
+                  Fetch Some Users
+                </Button>
+              </div>
             </Col>
           </Row>
         </Form>
