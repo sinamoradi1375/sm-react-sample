@@ -11,8 +11,6 @@ import {
 } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { SmInputGroup } from "../shared/utilities/SmInputGroup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCross, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   userToEdit: IUser | null;
@@ -21,6 +19,7 @@ interface IProps {
 
 const UserForm: React.FC<IProps> = ({ userToEdit, setUserToEdit }) => {
   const isEditMode = userToEdit === null ? false : true;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -41,9 +40,11 @@ const UserForm: React.FC<IProps> = ({ userToEdit, setUserToEdit }) => {
     age: "",
   };
   const dispatch = useDispatch();
-  const fetchTodos = async () => {
+  const fetchUsers = () => {
     try {
+      setIsLoading(true);
       dispatch(fetchUsersByThunk());
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +87,7 @@ const UserForm: React.FC<IProps> = ({ userToEdit, setUserToEdit }) => {
           </Row>
           <Row className="mt-3">
             <Col>
-              <div className="d-flex flex-column flex-md-row justify-content-between">
+              <div className="d-flex flex-column flex-md-row justify-content-start">
                 {!isEditMode ? (
                   <Button
                     variant="primary"
@@ -119,7 +120,12 @@ const UserForm: React.FC<IProps> = ({ userToEdit, setUserToEdit }) => {
                     </Button>
                   </div>
                 )}
-                <Button variant="secondary" type="button" onClick={fetchTodos}>
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={fetchUsers}
+                  disabled={isLoading}
+                >
                   Fetch Some Users
                 </Button>
               </div>
